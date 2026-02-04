@@ -8,17 +8,12 @@ module.exports = async (req, res) => {
 
   async function parseBody(req) {
     const contentType = (req.headers['content-type'] || '').split(';')[0].trim();
-
     const chunks = [];
     for await (const chunk of req) chunks.push(chunk);
     const raw = Buffer.concat(chunks).toString('utf8');
 
     if (contentType === 'application/json') {
-      try {
-        return JSON.parse(raw || '{}');
-      } catch {
-        return {};
-      }
+      try { return JSON.parse(raw || '{}'); } catch { return {}; }
     }
     if (contentType === 'application/x-www-form-urlencoded') {
       const params = new URLSearchParams(raw);
@@ -26,12 +21,7 @@ module.exports = async (req, res) => {
       for (const [k, v] of params.entries()) obj[k] = v;
       return obj;
     }
-    // Fallback: try JSON, else empty
-    try {
-      return JSON.parse(raw || '{}');
-    } catch {
-      return {};
-    }
+    try { return JSON.parse(raw || '{}'); } catch { return {}; }
   }
 
   if (req.method !== 'POST') {
@@ -40,7 +30,6 @@ module.exports = async (req, res) => {
   }
 
   try {
-    // Parse body safely across runtimes
     const body = req.body && typeof req.body === 'object' ? req.body : await parseBody(req);
     const { name, email, message, service } = body || {};
     if (!name || !email || !message) {
@@ -63,13 +52,9 @@ module.exports = async (req, res) => {
     `;
 
     if (apiKey) {
-      // Customer confirmation
       const resp1 = await fetch('https://api.resend.com/emails', {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
+        headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({
           from: 'onboarding@resend.dev',
           to: email,
@@ -81,28 +66,19 @@ module.exports = async (req, res) => {
               <hr />
               ${html}
             </div>
-          `,
-        }),
+          `
+        })
       });
       if (!resp1.ok) {
         const t = await resp1.text();
         console.error('Resend customer email failed:', resp1.status, t);
       }
 
-      // Admin notification (optional)
       if (adminEmail) {
         const resp2 = await fetch('https://api.resend.com/emails', {
           method: 'POST',
-          headers: {
-            Authorization: `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            from: 'onboarding@resend.dev',
-            to: adminEmail,
-            subject,
-            html,
-          }),
+          headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ from: 'onboarding@resend.dev', to: adminEmail, subject, html })
         });
         if (!resp2.ok) {
           const t = await resp2.text();
