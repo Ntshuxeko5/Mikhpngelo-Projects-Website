@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Mikhongelo Projects</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="components/ui/tubelight-navbar.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'orange-primary': '#FF6B35',
+                        'orange-light': '#FF8A65',
+                        'orange-dark': '#E65100'
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-orange-primary">Mikhongelo Projects</h1>
+                    <span class="ml-4 text-gray-500">Admin Dashboard</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600" id="lastUpdated">Last updated: --</span>
+                    <button onclick="loadInquiries()" class="bg-orange-primary hover:bg-orange-dark text-white px-4 py-2 rounded-lg text-sm transition-colors duration-300">
+                        <i class="fas fa-sync-alt mr-2"></i>Refresh
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-blue-100 rounded-lg">
+                        <i class="fas fa-envelope text-blue-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Total Inquiries</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="totalInquiries">--</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-yellow-100 rounded-lg">
+                        <i class="fas fa-clock text-yellow-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">New</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="newInquiries">--</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-orange-100 rounded-lg">
+                        <i class="fas fa-spinner text-orange-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">In Progress</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="inProgressInquiries">--</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-green-100 rounded-lg">
+                        <i class="fas fa-check text-green-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Resolved</p>
+                        <p class="text-2xl font-semibold text-gray-900" id="resolvedInquiries">--</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-white rounded-lg shadow mb-6">
+            <div class="p-6 border-b">
+                <h2 class="text-lg font-semibold text-gray-900">Inquiries</h2>
+            </div>
+            <div class="p-6">
+                <div class="flex flex-wrap gap-4 items-center">
+                    <div>
+                        <label for="statusFilter" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                        <select id="statusFilter" onchange="loadInquiries()" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-primary focus:border-transparent">
+                            <option value="all">All Status</option>
+                            <option value="new">New</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="resolved">Resolved</option>
+                            <option value="closed">Closed</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="limitFilter" class="block text-sm font-medium text-gray-700 mb-1">Per Page</label>
+                        <select id="limitFilter" onchange="loadInquiries()" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-primary focus:border-transparent">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inquiries Table -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inquiriesTableBody" class="bg-white divide-y divide-gray-200">
+                        <!-- Inquiries will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1 flex justify-between sm:hidden">
+                        <button id="prevPageMobile" onclick="changePage(-1)" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                            Previous
+                        </button>
+                        <button id="nextPageMobile" onclick="changePage(1)" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                            Next
+                        </button>
+                    </div>
+                    <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                        <div>
+                            <p class="text-sm text-gray-700" id="paginationInfo">
+                                Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">0</span> results
+                            </p>
+                        </div>
+                        <div>
+                            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" id="paginationNav">
+                                <!-- Pagination buttons will be generated here -->
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Inquiry Detail Modal -->
+    <div id="inquiryModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900" id="modalTitle">Inquiry Details</h3>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <div id="modalContent">
+                    <!-- Inquiry details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-40 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-6">
+            <div class="flex items-center">
+                <i class="fas fa-spinner fa-spin text-orange-primary text-2xl mr-3"></i>
+                <span class="text-gray-700">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let totalPages = 1;
+        let inquiries = [];
+
+        // Load inquiries on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadInquiries();
+            loadStats();
+        });
+
+        async function loadInquiries() {
+            showLoading();
+            try {
+                const status = document.getElementById('statusFilter').value;
+                const limit = document.getElementById('limitFilter').value;
+                
+                const response = await fetch(`/api/admin/inquiries?page=${currentPage}&limit=${limit}&status=${status}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    inquiries = data.inquiries;
+                    totalPages = data.pagination.pages;
+                    renderInquiries(data.inquiries);
+                    renderPagination(data.pagination);
+                    updateLastUpdated();
+                } else {
+                    showError('Failed to load inquiries');
+                }
+            } catch (error) {
+                console.error('Error loading inquiries:', error);
+                showError('Error loading inquiries');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function loadStats() {
+            try {
+                const [allResponse, newResponse, inProgressResponse, resolvedResponse] = await Promise.all([
+                    fetch('/api/admin/inquiries?limit=1'),
+                    fetch('/api/admin/inquiries?status=new&limit=1'),
+                    fetch('/api/admin/inquiries?status=in-progress&limit=1'),
+                    fetch('/api/admin/inquiries?status=resolved&limit=1')
+                ]);
+
+                const [allData, newData, inProgressData, resolvedData] = await Promise.all([
+                    allResponse.json(),
+                    newResponse.json(),
+                    inProgressResponse.json(),
+                    resolvedResponse.json()
+                ]);
+
+                document.getElementById('totalInquiries').textContent = allData.pagination?.total || 0;
+                document.getElementById('newInquiries').textContent = newData.pagination?.total || 0;
+                document.getElementById('inProgressInquiries').textContent = inProgressData.pagination?.total || 0;
+                document.getElementById('resolvedInquiries').textContent = resolvedData.pagination?.total || 0;
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        function renderInquiries(inquiries) {
+            const tbody = document.getElementById('inquiriesTableBody');
+            tbody.innerHTML = '';
+
+            if (inquiries.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="px-6 py-4 text-center text-gray-500">
+                            No inquiries found
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            inquiries.forEach(inquiry => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#${inquiry.id}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${inquiry.firstName} ${inquiry.lastName}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${inquiry.email}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${inquiry.service || 'General'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <select onchange="updateStatus(${inquiry.id}, this.value)" class="text-sm rounded-full px-2 py-1 font-semibold ${getStatusClass(inquiry.status)}">
+                            <option value="new" ${inquiry.status === 'new' ? 'selected' : ''}>New</option>
+                            <option value="in-progress" ${inquiry.status === 'in-progress' ? 'selected' : ''}>In Progress</option>
+                            <option value="resolved" ${inquiry.status === 'resolved' ? 'selected' : ''}>Resolved</option>
+                            <option value="closed" ${inquiry.status === 'closed' ? 'selected' : ''}>Closed</option>
+                        </select>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(inquiry.created_at).toLocaleDateString()}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button onclick="viewInquiry(${inquiry.id})" class="text-orange-primary hover:text-orange-dark mr-3">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function getStatusClass(status) {
+            switch(status) {
+                case 'new': return 'bg-yellow-100 text-yellow-800';
+                case 'in-progress': return 'bg-orange-100 text-orange-800';
+                case 'resolved': return 'bg-green-100 text-green-800';
+                case 'closed': return 'bg-gray-100 text-gray-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        function renderPagination(pagination) {
+            const info = document.getElementById('paginationInfo');
+            const nav = document.getElementById('paginationNav');
+            
+            const start = (pagination.page - 1) * pagination.limit + 1;
+            const end = Math.min(pagination.page * pagination.limit, pagination.total);
+            
+            info.innerHTML = `Showing <span class="font-medium">${start}</span> to <span class="font-medium">${end}</span> of <span class="font-medium">${pagination.total}</span> results`;
+            
+            // Generate pagination buttons
+            let paginationHTML = '';
+            
+            // Previous button
+            paginationHTML += `
+                <button onclick="changePage(-1)" ${pagination.page <= 1 ? 'disabled' : ''} class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+            
+            // Page numbers
+            for (let i = 1; i <= pagination.pages; i++) {
+                if (i === pagination.page) {
+                    paginationHTML += `
+                        <button class="relative inline-flex items-center px-4 py-2 border border-orange-primary bg-orange-primary text-sm font-medium text-white">
+                            ${i}
+                        </button>
+                    `;
+                } else {
+                    paginationHTML += `
+                        <button onclick="goToPage(${i})" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            ${i}
+                        </button>
+                    `;
+                }
+            }
+            
+            // Next button
+            paginationHTML += `
+                <button onclick="changePage(1)" ${pagination.page >= pagination.pages ? 'disabled' : ''} class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            `;
+            
+            nav.innerHTML = paginationHTML;
+        }
+
+        function changePage(direction) {
+            const newPage = currentPage + direction;
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                loadInquiries();
+            }
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            loadInquiries();
+        }
+
+        async function updateStatus(inquiryId, newStatus) {
+            try {
+                const response = await fetch(`/api/admin/inquiries/${inquiryId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    loadStats(); // Refresh stats
+                    showSuccess('Status updated successfully');
+                } else {
+                    showError('Failed to update status');
+                    loadInquiries(); // Reload to reset the select
+                }
+            } catch (error) {
+                console.error('Error updating status:', error);
+                showError('Error updating status');
+                loadInquiries(); // Reload to reset the select
+            }
+        }
+
+        function viewInquiry(inquiryId) {
+            const inquiry = inquiries.find(i => i.id === inquiryId);
+            if (!inquiry) return;
+
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <div class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Name</label>
+                            <p class="mt-1 text-sm text-gray-900">${inquiry.firstName} ${inquiry.lastName}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Email</label>
+                            <p class="mt-1 text-sm text-gray-900">${inquiry.email}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Phone</label>
+                            <p class="mt-1 text-sm text-gray-900">${inquiry.phone || 'Not provided'}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Service</label>
+                            <p class="mt-1 text-sm text-gray-900">${inquiry.service || 'General inquiry'}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Status</label>
+                            <span class="mt-1 inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusClass(inquiry.status)}">
+                                ${inquiry.status.charAt(0).toUpperCase() + inquiry.status.slice(1)}
+                            </span>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Submitted</label>
+                            <p class="mt-1 text-sm text-gray-900">${new Date(inquiry.created_at).toLocaleString()}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">Message</label>
+                        <div class="mt-1 p-3 bg-gray-50 rounded-lg">
+                            <p class="text-sm text-gray-900 whitespace-pre-wrap">${inquiry.message}</p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-3 pt-4">
+                        <a href="mailto:${inquiry.email}" class="bg-orange-primary hover:bg-orange-dark text-white px-4 py-2 rounded-lg text-sm transition-colors duration-300">
+                            <i class="fas fa-envelope mr-2"></i>Reply via Email
+                        </a>
+                        ${inquiry.phone ? `<a href="tel:${inquiry.phone}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm transition-colors duration-300"><i class="fas fa-phone mr-2"></i>Call</a>` : ''}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modalTitle').textContent = `Inquiry #${inquiry.id}`;
+            document.getElementById('inquiryModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('inquiryModal').classList.add('hidden');
+        }
+
+        function showLoading() {
+            document.getElementById('loadingSpinner').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingSpinner').classList.add('hidden');
+        }
+
+        function showSuccess(message) {
+            // You can implement a toast notification here
+            console.log('Success:', message);
+        }
+
+        function showError(message) {
+            // You can implement a toast notification here
+            console.error('Error:', message);
+            alert('Error: ' + message);
+        }
+
+        function updateLastUpdated() {
+            document.getElementById('lastUpdated').textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+        }
+    </script>
+</body>
+</html>
+<div id="tubelight-navbar"></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const navItems = [
+      { name: 'Home', url: '/index.html', icon: 'home' },
+      { name: 'Admin', url: '/admin.html', icon: 'user' },
+      { name: 'Projects', url: '#', icon: 'briefcase' },
+      { name: 'Logs', url: '#', icon: 'file-text' },
+    ];
+
+    renderTubelightNavBar('tubelight-navbar', navItems);
+
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
+    }
+  });
+</script>

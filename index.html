@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Head: add Lucide icons CDN and navbar script -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mikhongelo Projects - Gas & Fuel Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="components/ui/tubelight-navbar.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'orange-primary': '#FF6B35',
+                        'orange-light': '#FF8A65',
+                        'orange-dark': '#E65100'
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-in-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-slow': 'pulse 3s infinite'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-orange-primary">Mikhongelo Projects</h1>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#home" class="nav-link text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300">Home</a>
+                        <a href="#about" class="nav-link text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300">About</a>
+                        <a href="#products" class="nav-link text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300">Products</a>
+                        <a href="#contact" class="nav-link text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300">Contact</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-700 hover:text-orange-primary focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="nav-link block text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#about" class="nav-link block text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#products" class="nav-link block text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-base font-medium">Products</a>
+                <a href="#contact" class="nav-link block text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Body: add a mount point and initialize the navbar -->
+    <div id="tubelight-navbar"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const navItems = [
+                { name: 'Home', url: '#', icon: 'home' },
+                { name: 'About', url: '#', icon: 'user' },
+                { name: 'Projects', url: '#', icon: 'briefcase' },
+                { name: 'Resume', url: '#', icon: 'file-text' },
+            ];
+    
+            renderTubelightNavBar('tubelight-navbar', navItems);
+    
+            if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                window.lucide.createIcons();
+            }
+        });
+    </script>
+    <script src="components/ui/tubelight-navbar.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'orange-primary': '#FF6B35',
+                        'orange-light': '#FF8A65',
+                        'orange-dark': '#E65100'
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-in-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-slow': 'pulse 3s infinite'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(50px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-white text-gray-800 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-orange-primary">Mikhongelo Projects</h1>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#home" class="nav-link text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300">Home</a>
+                        <a href="#about" class="nav-link text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300">About</a>
+                        <a href="#products" class="nav-link text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300">Products</a>
+                        <a href="#contact" class="nav-link text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300">Contact</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-700 hover:text-orange-primary focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home" class="nav-link block text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#about" class="nav-link block text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#products" class="nav-link block text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-base font-medium">Products</a>
+                <a href="#contact" class="nav-link block text-gray-700 hover:text-orange-primary px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="min-h-screen relative pt-16" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(255,107,53,0.3)), url('slider_img3_l_1200x677.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center animate-fade-in">
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg">
+                    <span class="text-orange-primary">Mikhongelo</span> Projects
+                </h1>
+                <p class="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto drop-shadow-md">
+                    Your trusted partner for premium fuel delivery and gas solutions across the region
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <button onclick="scrollToSection('products')" class="bg-orange-primary hover:bg-orange-dark text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        View Our Products
+                    </button>
+                    <button onclick="scrollToSection('contact')" class="border-2 border-orange-primary text-orange-primary hover:bg-orange-primary hover:text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300">
+                        Get In Touch
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Hero Features -->
+            <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 animate-slide-up">
+                    <div class="w-16 h-16 bg-orange-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-gas-pump text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Fuel Delivery</h3>
+                    <p class="text-gray-600">Premium petrol and diesel delivered directly to your location</p>
+                </div>
+                <div class="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="w-16 h-16 bg-orange-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-fire text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Gas Refills</h3>
+                    <p class="text-gray-600">Professional gas tank refilling services with competitive pricing</p>
+                </div>
+                <div class="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 animate-slide-up" style="animation-delay: 0.4s">
+                    <div class="w-16 h-16 bg-orange-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shipping-fast text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Fast Service</h3>
+                    <p class="text-gray-600">Quick and reliable delivery service across the region</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">About <span class="text-orange-primary">Us</span></h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Leading the industry with reliable fuel and gas solutions for over a decade</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="animate-slide-up">
+                    <h3 class="text-3xl font-bold text-gray-900 mb-6">Our Story</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Mikhongelo Projects has been serving communities with premium fuel delivery and gas solutions since our founding. We pride ourselves on reliability, quality, and exceptional customer service.
+                    </p>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Our team of experienced professionals ensures that every delivery meets the highest standards of safety and efficiency. From small residential needs to large commercial requirements, we have the expertise and resources to serve you.
+                    </p>
+                    <div class="flex items-center space-x-4">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-orange-primary">10+</div>
+                            <div class="text-sm text-gray-600">Years Experience</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-orange-primary">1000+</div>
+                            <div class="text-sm text-gray-600">Happy Customers</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-orange-primary">24/7</div>
+                            <div class="text-sm text-gray-600">Service Available</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-lg animate-slide-up">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Why Choose Us?</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-6 h-6 bg-orange-primary rounded-full flex items-center justify-center mt-1">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Premium Quality</h4>
+                                <p class="text-gray-600 text-sm">Only the highest quality fuels and gases from trusted suppliers</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="w-6 h-6 bg-orange-primary rounded-full flex items-center justify-center mt-1">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Reliable Delivery</h4>
+                                <p class="text-gray-600 text-sm">On-time delivery guaranteed with professional service</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="w-6 h-6 bg-orange-primary rounded-full flex items-center justify-center mt-1">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Competitive Pricing</h4>
+                                <p class="text-gray-600 text-sm">Fair and transparent pricing with no hidden costs</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="w-6 h-6 bg-orange-primary rounded-full flex items-center justify-center mt-1">
+                                <i class="fas fa-check text-white text-xs"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Safety First</h4>
+                                <p class="text-gray-600 text-sm">All safety protocols followed with certified equipment</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Our <span class="text-orange-primary">Services</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Comprehensive fuel and gas solutions for all your needs</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Petrol -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 animate-slide-up">
+                    <div class="w-16 h-16 bg-orange-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-gas-pump text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-center mb-4">Premium Petrol</h3>
+                    <p class="text-gray-600 text-center mb-6">High-quality unleaded petrol for all vehicle types. Delivered fresh and clean to your location.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check text-orange-primary mr-2"></i>
+                            Unleaded 95 & 98 Octane
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check text-orange-primary mr-2"></i>
+                            Bulk delivery available
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check text-orange-primary mr-2"></i>
+                            Quality guaranteed
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <button onclick="openContactModal('petrol')" class="bg-orange-primary hover:bg-orange-dark text-white px-6 py-2 rounded-lg transition-colors duration-300">
+                            Request Quote
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Diesel -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 animate-slide-up" style="animation-delay: 0.1s">
+                    <div class="w-16 h-16 bg-orange-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-truck text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-center mb-4">Diesel Fuel</h3>
+                    <p class="text-gray-600 text-center mb-6">Clean burning diesel fuel perfect for trucks, generators, and heavy machinery.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check text-orange-primary mr-2"></i>
+                            Low sulfur diesel
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check text-orange-primary mr-2"></i>
+                            Commercial quantities
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check text-orange-primary mr-2"></i>
+                            Emergency delivery
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <button onclick="openContactModal('diesel')" class="bg-orange-primary hover:bg-orange-dark text-white px-6 py-2 rounded-lg transition-colors duration-300">
+                            Request Quote
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Gas Refills -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="w-16 h-16 bg-orange-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-fire text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-center mb-4">Gas Tank Refills</h3>
+                    <p class="text-gray-600 text-center mb-6">Professional gas tank refilling service with competitive pricing and safety guaranteed.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check text-orange-primary mr-2"></i>
+                            LPG tank refills
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check text-orange-primary mr-2"></i>
+                            Safety inspections
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check text-orange-primary mr-2"></i>
+                            Competitive rates
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-orange-primary mb-2">From R180</div>
+                        <button onclick="openContactModal('gas-refill')" class="bg-orange-primary hover:bg-orange-dark text-white px-6 py-2 rounded-lg transition-colors duration-300">
+                            Book Service
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Butane Gas -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 animate-slide-up" style="animation-delay: 0.3s">
+                    <div class="w-16 h-16 bg-orange-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-burn text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-center mb-4">Butane Gas</h3>
+                    <p class="text-gray-600 text-center mb-6">High-quality butane gas perfect for stoves, heaters, and portable cooking equipment.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check text-orange-primary mr-2"></i>
+                            Portable canisters
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check text-orange-primary mr-2"></i>
+                            Various sizes available
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check text-orange-primary mr-2"></i>
+                            Safe and reliable
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <button onclick="openContactModal('butane')" class="bg-orange-primary hover:bg-orange-dark text-white px-6 py-2 rounded-lg transition-colors duration-300">
+                            Request Quote
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Gas Cylinders -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 animate-slide-up" style="animation-delay: 0.4s">
+                    <div class="w-16 h-16 bg-orange-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-battery-full text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-center mb-4">Gas Cylinders</h3>
+                    <p class="text-gray-600 text-center mb-6">New and refurbished gas cylinders in various sizes for residential and commercial use.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check text-orange-primary mr-2"></i>
+                            Multiple sizes
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check text-orange-primary mr-2"></i>
+                            Safety certified
+                        </li>
+                        <li class="flex items-center text-sm text-gray-600">
+                            <i class="fas fa-check text-orange-primary mr-2"></i>
+                            Exchange program
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <button onclick="openContactModal('cylinders')" class="bg-orange-primary hover:bg-orange-dark text-white px-6 py-2 rounded-lg transition-colors duration-300">
+                            Request Quote
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Emergency Service -->
+                <div class="bg-orange-primary text-white rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 animate-slide-up" style="animation-delay: 0.5s">
+                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-phone text-orange-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-center mb-4">Emergency Service</h3>
+                    <p class="text-center mb-6">24/7 emergency fuel and gas delivery service for urgent situations.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center text-sm">
+                            <i class="fas fa-check text-white mr-2"></i>
+                            24/7 availability
+                        </li>
+                        <li class="flex items-center text-sm">
+                            <i class="fas fa-check text-white mr-2"></i>
+                            Rapid response
+                        </li>
+                        <li class="flex items-center text-sm">
+                            <i class="fas fa-check text-white mr-2"></i>
+                            Emergency hotline
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <button onclick="openContactModal('emergency')" class="bg-white text-orange-primary hover:bg-gray-100 px-6 py-2 rounded-lg transition-colors duration-300 font-semibold">
+                            Call Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Contact <span class="text-orange-primary">Us</span></h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Get in touch for quotes, orders, or any questions about our services</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Contact Information -->
+                <div class="animate-slide-up">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Get In Touch</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-orange-primary rounded-full flex items-center justify-center">
+                                <i class="fas fa-phone text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Phone</h4>
+                                <p class="text-gray-600">+27 82 123 4567</p>
+
+                                <p class="text-sm text-gray-500">24/7 Emergency: +27 82 999 0000</p>
+
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-orange-primary rounded-full flex items-center justify-center">
+                                <i class="fas fa-envelope text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Email</h4>
+                                <p class="text-gray-600">info@mikhongeloprojects.com</p>
+                                <p class="text-sm text-gray-500">We'll respond within 24 hours</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-orange-primary rounded-full flex items-center justify-center">
+                                <i class="fas fa-map-marker-alt text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Service Area</h4>
+                                <p class="text-gray-600">Greater Metropolitan Area</p>
+                                <p class="text-sm text-gray-500">Delivery radius: 50 kilometers</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-orange-primary rounded-full flex items-center justify-center">
+                                <i class="fas fa-clock text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Business Hours</h4>
+                                <p class="text-gray-600">Mon - Fri: 7:00 AM - 7:00 PM</p>
+                                <p class="text-gray-600">Sat: 8:00 AM - 5:00 PM</p>
+                                <p class="text-gray-600">Sun: 8:00 AM - 2:00 PM</p>
+                                <p class="text-sm text-gray-500">Emergency service available 24/7</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <div class="bg-white p-8 rounded-xl shadow-lg animate-slide-up">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Send us a Message</h3>
+
+                    <form id="contactForm" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="firstName" class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-primary focus:border-transparent transition-colors duration-300">
+                            </div>
+                            <div>
+                                <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-primary focus:border-transparent transition-colors duration-300">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-primary focus:border-transparent transition-colors duration-300">
+                        </div>
+                        
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                            <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-primary focus:border-transparent transition-colors duration-300">
+                        </div>
+                        
+                        <div>
+                            <label for="service" class="block text-sm font-medium text-gray-700 mb-2">Service Interested In</label>
+                            <select id="service" name="service" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-primary focus:border-transparent transition-colors duration-300">
+                                <option value="">Select a service...</option>
+                                <option value="petrol">Petrol Delivery</option>
+                                <option value="diesel">Diesel Delivery</option>
+                                <option value="gas-refill">Gas Tank Refill</option>
+                                <option value="butane">Butane Gas</option>
+                                <option value="cylinders">Gas Cylinders</option>
+                                <option value="emergency">Emergency Service</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message *</label>
+                            <textarea id="message" name="message" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-primary focus:border-transparent transition-colors duration-300" placeholder="Please provide details about your requirements..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-orange-primary hover:bg-orange-dark text-white py-3 px-6 rounded-lg font-semibold transition-colors duration-300 transform hover:scale-105">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <h3 class="text-2xl font-bold text-orange-primary mb-4">Mikhongelo Projects</h3>
+                    <p class="text-gray-300 mb-4">Your trusted partner for premium fuel delivery and gas solutions. We provide reliable, safe, and efficient services across the region.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-orange-primary transition-colors duration-300">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-orange-primary transition-colors duration-300">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-orange-primary transition-colors duration-300">
+                            <i class="fab fa-linkedin-in text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-orange-primary transition-colors duration-300">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#products" class="text-gray-300 hover:text-orange-primary transition-colors duration-300">Petrol Delivery</a></li>
+                        <li><a href="#products" class="text-gray-300 hover:text-orange-primary transition-colors duration-300">Diesel Delivery</a></li>
+                        <li><a href="#products" class="text-gray-300 hover:text-orange-primary transition-colors duration-300">Gas Refills</a></li>
+                        <li><a href="#products" class="text-gray-300 hover:text-orange-primary transition-colors duration-300">Butane Gas</a></li>
+                        <li><a href="#products" class="text-gray-300 hover:text-orange-primary transition-colors duration-300">Gas Cylinders</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><i class="fas fa-phone mr-2 text-orange-primary"></i>+27 82 123 4567</li>
+
+                        <li><i class="fas fa-envelope mr-2 text-orange-primary"></i>info@mikhongeloprojects.com</li>
+                        <li><i class="fas fa-clock mr-2 text-orange-primary"></i>24/7 Emergency Service</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-300">&copy; 2024 Mikhongelo Projects. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl max-w-md w-full p-6 transform transition-all duration-300 scale-95 opacity-0" id="modalContent">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-900" id="modalTitle">Contact Us</h3>
+                <button onclick="closeContactModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <p class="text-gray-600 mb-4" id="modalMessage">Please fill out the contact form or call us directly for more information about this service.</p>
+            <div class="flex space-x-4">
+                <button onclick="scrollToSection('contact'); closeContactModal();" class="flex-1 bg-orange-primary hover:bg-orange-dark text-white py-2 px-4 rounded-lg transition-colors duration-300">
+                    Contact Form
+                </button>
+                <button onclick="window.location.href='tel:+15551234567'" class="flex-1 border border-orange-primary text-orange-primary hover:bg-orange-primary hover:text-white py-2 px-4 rounded-lg transition-colors duration-300">
+                    Call Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div id="successMessage" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle mr-2"></i>
+            <span>Message sent successfully!</span>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation links
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Navigation link active state
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                scrollToSection(targetId);
+                
+                // Close mobile menu if open
+                document.getElementById('mobile-menu').classList.add('hidden');
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-xl');
+            } else {
+                navbar.classList.remove('shadow-xl');
+            }
+        });
+
+        // Contact modal functions
+        function openContactModal(service) {
+            const modal = document.getElementById('contactModal');
+            const modalContent = document.getElementById('modalContent');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            
+            const serviceMessages = {
+                'petrol': 'Get a quote for premium petrol delivery to your location.',
+                'diesel': 'Request diesel fuel delivery for your vehicles or equipment.',
+                'gas-refill': 'Book our professional gas tank refilling service.',
+                'butane': 'Order butane gas for your stoves and portable equipment.',
+                'cylinders': 'Inquire about our gas cylinder sales and exchange program.',
+                'emergency': 'Contact us immediately for emergency fuel or gas delivery.'
+            };
+            
+            modalTitle.textContent = service === 'emergency' ? 'Emergency Service' : 'Request Quote';
+            modalMessage.textContent = serviceMessages[service] || 'Contact us for more information about this service.';
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeContactModal() {
+            const modal = document.getElementById('contactModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('contactModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeContactModal();
+            }
+        });
+
+        // Contact form submission with backend integration
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            try {
+                // Show loading state
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
+                submitBtn.disabled = true;
+                
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData);
+                
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Show success message
+                    const successMessage = document.getElementById('successMessage');
+                    successMessage.classList.remove('translate-x-full');
+                    successMessage.classList.add('translate-x-0');
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        successMessage.classList.remove('translate-x-0');
+                        successMessage.classList.add('translate-x-full');
+                    }, 5000);
+                    
+                    // Reset form
+                    this.reset();
+                    closeContactModal();
+                } else {
+                    throw new Error(result.message || 'Failed to submit inquiry');
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('Sorry, there was an error submitting your inquiry. Please try again or call us directly at +27 82 123 4567.');
+            } finally {
+                // Reset button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections for animations
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Add loading animation
+        window.addEventListener('load', function() {
+            document.body.classList.add('animate-fade-in');
+        });
+    </script>
+</body>
+</html>
