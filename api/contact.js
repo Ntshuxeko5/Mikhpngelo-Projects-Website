@@ -69,7 +69,7 @@ module.exports = async (req, res) => {
       );
 
       const apiKey = process.env.RESEND_API_KEY;
-      const adminEmail = process.env.ADMIN_EMAIL;
+      const adminEmail = process.env.ADMIN_EMAIL || 'chabalalapretty2@gmail.com';
       if (apiKey) {
         const subject = `New Inquiry${service ? `: ${service}` : ''}`;
         const html = `
