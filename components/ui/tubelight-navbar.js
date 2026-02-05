@@ -89,12 +89,18 @@ function renderTubelightNavBar(rootId, items) {
     setActive(item.name === activeName);
 
     link.addEventListener('click', (e) => {
-      // Prevent navigating on placeholder URLs
-      if (link.getAttribute('href') === '#') e.preventDefault();
+      const href = link.getAttribute('href') || '';
+      if (href.startsWith('#')) {
+        e.preventDefault();
+        const id = href.slice(1);
+        const target = document.getElementById(id);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      } else if (href === '#') {
+        e.preventDefault();
+      }
 
       activeName = item.name;
 
-      // Toggle active state for all items
       const links = bar.querySelectorAll('a');
       links.forEach((a) => {
         const isActive = a.dataset.name === activeName;
@@ -107,7 +113,6 @@ function renderTubelightNavBar(rootId, items) {
         }
       });
 
-      // Re-render Lucide icons (if available)
       if (window.lucide && typeof window.lucide.createIcons === 'function') {
         window.lucide.createIcons();
       }
@@ -119,9 +124,41 @@ function renderTubelightNavBar(rootId, items) {
   root.innerHTML = '';
   root.appendChild(container);
 
-  // Initialize Lucide icons on first render
   if (window.lucide && typeof window.lucide.createIcons === 'function') {
     window.lucide.createIcons();
+  }
+
+  const sectionIds = items
+    .map(i => (i.url || '').startsWith('#') ? (i.url || '').slice(1) : null)
+    .filter(Boolean);
+
+  if (sectionIds.length) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const nameForSection = items.find(i => (i.url || '').slice(1) === entry.target.id)?.name;
+          if (nameForSection && nameForSection !== activeName) {
+            activeName = nameForSection;
+            const links = bar.querySelectorAll('a');
+            links.forEach((a) => {
+              const isActive = a.dataset.name === activeName;
+              if (isActive) {
+                a.classList.add('bg-gray-100', 'text-blue-600');
+                addLamp(a);
+              } else {
+                a.classList.remove('bg-gray-100', 'text-blue-600');
+                removeLamp(a);
+              }
+            });
+          }
+        }
+      });
+    }, { threshold: 0.6 });
+
+    sectionIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
   }
 }
 
