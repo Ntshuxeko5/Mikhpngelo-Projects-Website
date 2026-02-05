@@ -11,7 +11,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com https://vercel.live; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://vercel.live; img-src 'self' data: https: https://vercel.live; font-src 'self' https: data: https://assets.vercel.com; connect-src 'self' https: https://vercel.live; frame-src 'self' https://vercel.live"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com https://cdnjs.cloudflare.com https://vercel.live; script-src-elem 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com https://cdnjs.cloudflare.com https://vercel.live; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://vercel.live; style-src-elem 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://vercel.live; img-src 'self' data: https: https://vercel.live; font-src 'self' https: data: https://assets.vercel.com https://cdnjs.cloudflare.com; connect-src 'self' https: wss: https://vercel.live; frame-src 'self' https://vercel.live"
         }
       ]
     }
