@@ -4,7 +4,9 @@
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
     { "source": "/admin", "destination": "/admin.html" },
-    { "source": "/api/admin/inquiries/:id/status", "destination": "/api/admin/inquiries-status?id=:id" }
+    { "source": "/api/admin/inquiries/:id/status", "destination": "/api/admin/inquiries-status?id=:id" },
+    { "source": "/favicon.ico", "destination": "/slider_img3_l_1200x677.jpg" },
+    { "source": "/favicon.png", "destination": "/slider_img3_l_1200x677.jpg" }
   ],
   "headers": [
     {

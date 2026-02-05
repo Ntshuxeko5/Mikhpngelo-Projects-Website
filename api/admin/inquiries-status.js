@@ -5,7 +5,6 @@ module.exports = async (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     return res.end(JSON.stringify({ success: false, error: 'Method Not Allowed' }));
   }
-
   try {
     const id = parseInt((req.query.id || '').toString(), 10);
     const chunks = [];
@@ -15,7 +14,6 @@ module.exports = async (req, res) => {
     const raw = Buffer.concat(chunks).toString('utf8');
     let body = {};
     try { body = JSON.parse(raw || '{}'); } catch {}
-
     const status = body.status;
     if (!Number.isFinite(id)) {
       res.statusCode = 400;
@@ -27,12 +25,9 @@ module.exports = async (req, res) => {
       res.setHeader('Content-Type', 'application/json');
       return res.end(JSON.stringify({ success: false, error: 'Invalid status' }));
     }
-
     const { neon } = await import('@neondatabase/serverless');
     const sql = neon(process.env.DATABASE_URL);
-
     await sql('UPDATE inquiries SET status = $1 WHERE id = $2', [status, id]);
-
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify({ success: true, message: 'Status updated successfully' }));
