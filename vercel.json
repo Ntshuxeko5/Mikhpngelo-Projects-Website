@@ -3,7 +3,8 @@
   "trailingSlash": false,
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
-    { "source": "/admin", "destination": "/admin.html" }
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/api/admin/inquiries/:id/status", "destination": "/api/admin/inquiries-status?id=:id" }
   ],
   "headers": [
     {

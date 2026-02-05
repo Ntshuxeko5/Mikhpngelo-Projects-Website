@@ -9,14 +9,16 @@ module.exports = async (req, res) => {
   async function parseBody(req) {
     const contentType = (req.headers['content-type'] || '').split(';')[0].trim();
     const chunks = [];
-    for await (const chunk of req) chunks.push(chunk);
+    for await (const chunk of req) {
+      chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
+    }
     const raw = Buffer.concat(chunks).toString('utf8');
 
     if (contentType === 'application/json') {
       try { return JSON.parse(raw || '{}'); } catch { return {}; }
     }
     if (contentType === 'application/x-www-form-urlencoded') {
-      const params = new URLSearchParams(raw);
+      const params = new URLSearchParams(raw || '');
       const obj = {};
       for (const [k, v] of params.entries()) obj[k] = v;
       return obj;
@@ -31,67 +33,81 @@ module.exports = async (req, res) => {
 
   try {
     const body = req.body && typeof req.body === 'object' ? req.body : await parseBody(req);
-    const { name, email, message, service } = body || {};
-    if (!name || !email || !message) {
-      return sendJson(400, { error: 'Missing required fields' });
+    const email = body?.email;
+    const message = body?.message;
+    const service = body?.service || '';
+    const firstName = body?.firstName || (body?.name ? String(body.name).split(' ')[0] : '');
+    const lastName = body?.lastName || (body?.name ? String(body.name).split(' ').slice(1).join(' ') : '');
+    if (!firstName || !email || !message) {
+      return sendJson(400, { ok: false, error: 'Missing required fields' });
     }
 
-    const apiKey = process.env.RESEND_API_KEY;
-    const adminEmail = process.env.ADMIN_EMAIL;
+    const ipAddress = (req.headers['x-forwarded-for'] || '').split(',')[0].trim();
 
-    const subject = `New Inquiry${service ? `: ${service}` : ''}`;
-    const html = `
-      <div style="font-family: system-ui, Arial, sans-serif; line-height: 1.6;">
-        <h2 style="margin:0 0 12px;">New Inquiry</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        ${service ? `<p><strong>Service:</strong> ${service}</p>` : ''}
-        <p><strong>Message:</strong></p>
-        <pre style="white-space:pre-wrap; font-family: inherit;">${message}</pre>
-      </div>
-    `;
+    try {
+      const { neon } = await import('@neondatabase/serverless');
+      const sql = neon(process.env.DATABASE_URL);
+      await sql(`
+        CREATE TABLE IF NOT EXISTS inquiries (
+          id SERIAL PRIMARY KEY,
+          firstName TEXT NOT NULL,
+          lastName TEXT NOT NULL,
+          email TEXT NOT NULL,
+          phone TEXT,
+          service TEXT,
+          message TEXT NOT NULL,
+          status TEXT DEFAULT 'new',
+          created_at TIMESTAMPTZ DEFAULT NOW(),
+          ip_address TEXT
+        );
+      `);
+      const [{ id }] = await sql(
+        `INSERT INTO inquiries (firstName, lastName, email, phone, service, message, ip_address)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)
+         RETURNING id`,
+        [firstName, lastName, email, body?.phone || '', service, message, ipAddress]
+      );
 
-    if (apiKey) {
-      const resp1 = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          from: 'onboarding@resend.dev',
-          to: email,
-          subject: 'We received your inquiry',
-          html: `
-            <div style="font-family: system-ui, Arial, sans-serif; line-height: 1.6;">
-              <p>Hi ${name},</p>
-              <p>Thanks for reaching out. We received your message and will get back to you shortly.</p>
-              <hr />
-              ${html}
-            </div>
-          `
-        })
-      });
-      if (!resp1.ok) {
-        const t = await resp1.text();
-        console.error('Resend customer email failed:', resp1.status, t);
-      }
-
-      if (adminEmail) {
-        const resp2 = await fetch('https://api.resend.com/emails', {
+      const apiKey = process.env.RESEND_API_KEY;
+      const adminEmail = process.env.ADMIN_EMAIL;
+      if (apiKey) {
+        const subject = `New Inquiry${service ? `: ${service}` : ''}`;
+        const html = `
+          <div style="font-family: system-ui, Arial, sans-serif; line-height: 1.6;">
+            <h2 style="margin:0 0 12px;">New Inquiry #${id}</h2>
+            <p><strong>Name:</strong> ${firstName} ${lastName || ''}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            ${service ? `<p><strong>Service:</strong> ${service}</p>` : ''}
+            <p><strong>Message:</strong></p>
+            <pre style="white-space:pre-wrap; font-family: inherit;">${message}</pre>
+          </div>
+        `;
+        await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ from: 'onboarding@resend.dev', to: adminEmail, subject, html })
-        });
-        if (!resp2.ok) {
-          const t = await resp2.text();
-          console.error('Resend admin email failed:', resp2.status, t);
+          body: JSON.stringify({
+            from: 'noreply@mikhongeloprojects.com',
+            to: email,
+            subject: 'We received your inquiry',
+            html
+          })
+        }).catch(() => {});
+        if (adminEmail) {
+          await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ from: 'noreply@mikhongeloprojects.com', to: adminEmail, subject, html })
+          }).catch(() => {});
         }
       }
-    } else {
-      console.warn('RESEND_API_KEY not set; skipping email sends.');
-    }
 
-    return sendJson(200, { ok: true, message: 'Inquiry received' });
+      return sendJson(200, { ok: true, inquiryId: id, message: 'Inquiry received' });
+    } catch (dbErr) {
+      console.error('DB/email error:', dbErr && (dbErr.stack || dbErr));
+      return sendJson(200, { ok: false, error: 'Failed to persist inquiry' });
+    }
   } catch (err) {
-    console.error('Contact API error:', err);
-    return sendJson(500, { error: 'Internal Server Error' });
+    console.error('Contact API error:', err && (err.stack || err));
+    return sendJson(200, { ok: false, error: 'Contact API error' });
   }
 };
