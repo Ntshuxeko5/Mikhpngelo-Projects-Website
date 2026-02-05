@@ -163,7 +163,7 @@
     <!-- Home Section -->
     <section id="home" class="min-h-screen relative pt-16">
         <img src="slider_img3_l_1200x677.jpg" alt="Hero" class="absolute inset-0 w-full h-full object-contain" />
-        <div class="absolute inset-0 bg-gradient-to-b from-black/40 to-orange-primary/30"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-orange-primary/15"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="text-center animate-fade-in">
                 <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg">
@@ -673,10 +673,15 @@
             });
         }
 
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
+        // Mobile menu toggle (support multiple navs)
+        document.querySelectorAll('#mobile-menu-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const nav = btn.closest('nav');
+                const mobileMenu = nav ? nav.querySelector('#mobile-menu') : null;
+                if (mobileMenu) {
+                    mobileMenu.classList.toggle('hidden');
+                }
+            });
         });
 
         // Navigation link active state
@@ -686,8 +691,12 @@
                 const targetId = this.getAttribute('href').substring(1);
                 scrollToSection(targetId);
                 
-                // Close mobile menu if open
-                document.getElementById('mobile-menu').classList.add('hidden');
+                // Close mobile menu nearest to the link
+                const nav = this.closest('nav');
+                const mobileMenu = nav ? nav.querySelector('#mobile-menu') : null;
+                if (mobileMenu) {
+                    mobileMenu.classList.add('hidden');
+                }
             });
         });
 
