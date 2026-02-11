@@ -14,14 +14,14 @@
           const container = document.createElement('div');
           container.className = 'fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-50 mb-6 sm:pt-6';
           const bar = document.createElement('div');
-          bar.className = 'flex items-center gap-3 bg-white/10 border border-gray-200 backdrop-blur-lg py-1 px-1 rounded-full shadow-lg';
+          bar.className = 'flex items-center gap-3 bg-white/80 border border-gray-200 backdrop-blur-lg py-2 px-3 rounded-full shadow-lg';
           container.appendChild(bar);
           let activeName = items[0].name;
           items.forEach((item) => {
             const link = document.createElement('a');
             link.href = item.url || '#';
             link.dataset.name = item.name;
-            link.className = 'relative cursor-pointer text-sm font-semibold px-6 py-2 rounded-full transition-colors text-gray-700 hover:text-blue-600';
+            link.className = 'relative cursor-pointer text-sm font-semibold px-4 sm:px-6 py-2 rounded-full transition-colors text-gray-700 hover:text-blue-600';
             const desktopSpan = document.createElement('span');
             desktopSpan.className = 'hidden md:inline';
             desktopSpan.textContent = item.name;
@@ -29,7 +29,7 @@
             mobileSpan.className = 'md:hidden flex items-center justify-center';
             const iconEl = document.createElement('i');
             iconEl.setAttribute('data-lucide', (item.icon || '').toLowerCase());
-            iconEl.setAttribute('data-size', '18');
+            iconEl.setAttribute('data-size', '20');
             iconEl.setAttribute('data-stroke-width', '2.5');
             mobileSpan.appendChild(iconEl);
             link.appendChild(desktopSpan);
@@ -283,9 +283,8 @@
     </nav>
 
     <!-- Home Section -->
-    <section id="home" class="min-h-screen relative pt-16">
-        <div class="fixed inset-0 -z-10 bg-cover bg-center" style="background-image: url('/slider_img3_l_1200x677.jpg');"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <section id="home" class="min-h-screen relative pt-16 flex items-center justify-center bg-cover bg-center bg-no-repeat bg-gray-900" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/slider_img3_l_1200x677.jpg');">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
             <div class="text-center animate-fade-in">
                 <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg">
                     <span class="text-orange-primary">Mikhongelo</span> Projects
@@ -427,7 +426,7 @@
                     <ul class="space-y-2 mb-6">
                         <li class="flex items-center text-sm text-gray-600">
                             <i class="fas fa-check text-orange-primary mr-2"></i>
-                            Unleaded 95 & 98 Octane
+                            Unleaded 93 & 95 Octane
                         </li>
                         <li class="flex items-center text-sm text-gray-600">
                             <i class="fas fa-check text-orange-primary mr-2"></i>
