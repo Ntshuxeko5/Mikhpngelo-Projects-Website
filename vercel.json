@@ -1,8 +1,6 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "buildCommand": "echo 'No build step required'",
-  "outputDirectory": "public",
   "rewrites": [
     { "source": "/api/admin/inquiries/:id/status", "destination": "/api/admin/inquiries-status?id=:id" }
   ],
